@@ -7,14 +7,15 @@ import Single from "./pages/Single";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home"
 import Footer from "./components/footer";
+import "../../client/src/style.scss";
 
 const Layout = () => {
   return (
-    <>
+  <>
       <Navbar />
       <Outlet />
       <Footer />
-    </>
+      </>
   );
 };
 const router = createBrowserRouter([
