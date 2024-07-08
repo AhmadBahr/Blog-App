@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Write from "./pages/Write";
 import Single from "./pages/Single";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home"
+import Footer from "./components/footer";
 
 const Layout = () => {
   return (
