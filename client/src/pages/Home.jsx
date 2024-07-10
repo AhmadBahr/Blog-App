@@ -70,12 +70,15 @@ const Home = () => {
       <div className='posts'>
         {posts.map(post => (
           <div className='post' key={post.id}>
-            <img src={post.img} alt={post.title} />
+            <div className='img'>
+              <img src={post.img} alt={post.title} />
+            </div>
             <div className='content'>
-              <Link to={`/post/${post.id}`}>
+              <Link to={`/post/${post.id}`} className='link'>
                 <h1>{post.title}</h1>
               </Link>
               <p>{post.description}</p>
+              <button>Read More</button>
             </div>
           </div>
         ))}
