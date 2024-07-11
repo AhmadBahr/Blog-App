@@ -208,6 +208,16 @@ $lightGreen: #b9e7e7;
                         font-weight: bold;
                     }
                 }
+                .edit{
+                    display: flex;
+                    gap: 5px;
+
+                    img{
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                    }
+                }
             }
             .menu{
                 flex: 2;
