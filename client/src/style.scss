@@ -275,6 +275,90 @@ $lightGreen: #b9e7e7;
             }
         }
 
+        .add {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                input {
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 18px;
+                }
+
+                .editorContainer {
+                    .editor {
+                        height: 300px;
+
+                        .ql-container {
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+
+            .publish {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 20px;
+
+                label {
+                    font-size: 16px;
+                }
+
+                select,
+                input[type="file"],
+                button {
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    margin-top: 10px;
+                }
+
+                button {
+                    background-color: teal;
+                    color: white;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: darken(teal, 10%);
+                    }
+                }
+            }
+
+            .menu {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                h1 {
+                    font-size: 24px;
+                    color: teal;
+                }
+
+                div {
+                    display: flex;
+                    align-items: center;
+
+                    input[type="radio"] {
+                        margin-right: 10px;
+                    }
+
+                    label {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+
         footer {
             margin-top: 100px;
             padding: 20px;
@@ -286,24 +370,6 @@ $lightGreen: #b9e7e7;
 
             img {
                 height: 50px;
-            }
-        }
-
-        //WRITE 
-        .add{
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
-
-            .content{
-                flex: 5
-            }
-
-            .menu{
-                flex: 2;
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
             }
         }
     }
