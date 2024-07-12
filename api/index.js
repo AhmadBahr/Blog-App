@@ -4,6 +4,10 @@ const app = express();
 
 app.use(express.json());
 
-app.listen(3000, () => {
+app.get("/test", (req, res) => {
+    res.send("Hello World!");
+});
+
+app.listen(8800, () => {
     console.log("Conntectd!");
 });
