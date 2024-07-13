@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 const Register = () => {
   const [inputs, setInputs] = React.useState({
@@ -13,7 +14,13 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-
+    const res = await fetch("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(inputs)
+    })
   }
 
 
