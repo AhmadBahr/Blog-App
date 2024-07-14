@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", inputs);
+      await axios.post("/auth/login", inputs);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
@@ -23,14 +23,14 @@ const Login = () => {
   };
   return (
     <div className='auth'>
-        <h1>Login</h1>
-        <form>
-            <input type="text" placeholder='username' name='username' onChange={}/>
-            <input type="password" placeholder='password' name='password' />
-            <button onClick={handleSubmit}>Login</button>
-            {err && <span>{err.message}</span>}
-        </form>
-        <span>Don't have an account? <a href="/register">Register</a></span>
+      <h1>Login</h1>
+      <form>
+        <input type="text" placeholder='username' name='username' onChange={handleChange} />
+        <input type="password" placeholder='password' name='password' onChange={handleChange} />
+        <button onClick={handleSubmit}>Login</button>
+        {err && <span>{err.message}</span>}
+      </form>
+      <span>Don't have an account? <a href="/register">Register</a></span>
     </div>
   )
 }
