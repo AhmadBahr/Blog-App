@@ -17,15 +17,23 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             console.error("Login error:", err);
         }
-    }
+    };
 
-};
- // Function to handle logout
- const logout = () => {
-    setCurrentUser(null);
-    localStorage.removeItem("user");
-};
+    // Function to handle logout
+    const logout = () => {
+        setCurrentUser(null);
+        localStorage.removeItem("user");
+    };
 
-useEffect (() => {
-    localStorage.setItem("user", JSON.stringify(currentUser));
-}, [currentUser]);
+    // Save the user to localStorage whenever currentUser changes
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(currentUser));
+    }, [currentUser]);
+
+    // Provide the currentUser, login, and logout functions to the context
+    return (
+        <AuthContext.Provider value={{ currentUser, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
