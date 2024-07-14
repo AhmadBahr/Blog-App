@@ -18,4 +18,14 @@ export const AuthProvider = ({ children }) => {
             console.error("Login error:", err);
         }
     }
-}
+
+};
+ // Function to handle logout
+ const logout = () => {
+    setCurrentUser(null);
+    localStorage.removeItem("user");
+};
+
+useEffect (() => {
+    localStorage.setItem("user", JSON.stringify(currentUser));
+}, [currentUser]);
