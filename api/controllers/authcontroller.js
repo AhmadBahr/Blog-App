@@ -53,9 +53,8 @@ export const login = (req, res) => {
             console.log("Wrong password");
             return res.status(400).json("Wrong username or password!");
         }
-
-        console.log("User logged in successfully");
-        return res.status(200).json("Logged in successfully");
+        const token = jwt.sign({ id: data[0].id }, "jwtkey");
+        const { password, ...other } = data[0];
     });
 };
 
