@@ -1,16 +1,13 @@
 import express from "express";
-import postRoutes from "./routes/posts.js";
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js";
-
+import cors from "cors";
+import authRoutes from "./routes/auth.js"; 
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.use("/api/posts", postRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
+app.use("/auth", authRoutes);
 
-app.listen(8800, () => {
-    console.log("Conntectd!");
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
 });
