@@ -1,8 +1,9 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
-    console.log("Register endpoint hit"); 
+    console.log("Register endpoint hit");
     const q = "SELECT * FROM users WHERE email = ? OR username = ?";
     db.query(q, [req.body.email, req.body.username], (err, data) => {
         if (err) {
@@ -31,5 +32,30 @@ export const register = (req, res) => {
 
     });
 
+};
+
+export const login = (req, res) => {
+    //Check user
+    console.log("Login endpoint hit");
+    const q = "SELECT * FROM users WHERE username = ?";
+    db.query(q, [req.body.username], (err, data) => {
+        if (err) {
+            console.error("Error selecting user:", err);
+            return res.status(500).json({ error: "Database query error", details: err });
+        }
+        if (data.length === 0) {
+            console.log("User not found");
+            return res.status(404).json("User not found!");
+        }
+            //Check Password
+        const isPasswordCorrect = bcrypt.compareSync(req.body.password, data[0].password);
+        if (!isPasswordCorrect) {
+            console.log("Wrong password");
+            return res.status(400).json("Wrong username or password!");
+        }
+
+        console.log("User logged in successfully");
+        return res.status(200).json("Logged in successfully");
+    });
 };
 
