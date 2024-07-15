@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 const Write = () => {
@@ -14,6 +16,8 @@ const Write = () => {
   const [cat, setCat] = useState(state?.cat || "");
   const [status, setStatus] = useState('Draft');
   const [visibility, setVisibility] = useState('Public');
+
+const navigate = useNavigate();
 
   const upload = async () => {
     if (img) {
@@ -55,6 +59,7 @@ const Write = () => {
           status,
           visibility,
         });
+        Navigate("/");
       }
     } catch (err) {
       console.log(err);
