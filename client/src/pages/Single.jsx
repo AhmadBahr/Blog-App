@@ -41,10 +41,15 @@ const Single = () => {
     }
   };
 
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
+
   return (
     <div className="single">
       <div className="content">
-        <img src={post?.img} alt="Main content" />
+        <img src={`../upload/${post?.img}`} alt="Main content" />
         <div className="user">
           {post.userImg && <img src={post.userImg} alt="User" />}
           <div className="info">
@@ -63,9 +68,9 @@ const Single = () => {
         <h1>
           {post.title}
         </h1>
-        {post.description}
+        {getText(post.desc)}
       </div>
-      <Menu cat = {post.cat}/>
+      <Menu cat={post.cat} />
     </div>
   );
 };

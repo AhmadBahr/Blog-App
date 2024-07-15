@@ -94,7 +94,7 @@ const Menu = ({ cat }) => {
       <ul>
         {posts.map(post => (
           <li key={post.id} className="post-item">
-            <img src={post.image} alt={post.title} className="post-image" />
+            <img src={`../upload/${post?.img}`} alt={post.title} className="post-image" />
             <h2 className="post-title">{post.title}</h2>
             <p className="post-description">{post.description}</p>
             <button className="read-more">Read More</button>

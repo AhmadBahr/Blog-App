@@ -7,7 +7,7 @@ const Home = () => {
 
   const cat = useLocation().search
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts${cat}`);
@@ -82,6 +82,13 @@ const Home = () => {
   //   }
   // ];
 
+  const getText = (html) => { 
+    return new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContnet
+   }
+ 
+
+
   return (
     <div className='home'>
       <div className='posts'>
@@ -94,7 +101,7 @@ const Home = () => {
               <Link to={`/post/${post.id}`} className='link'>
                 <h1>{post.title}</h1>
               </Link>
-              <p>{post.description}</p>
+              <p>{getText(post.desc)}</p>
               <button>Read More</button>
             </div>
           </div>
