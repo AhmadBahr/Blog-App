@@ -5,20 +5,35 @@ import 'react-quill/dist/quill.snow.css';
 
 const Write = () => {
   const [value, setValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [img, setImg] = useState(null);
+  const [cat, setCat] = useState('');
   const [status, setStatus] = useState('Draft');
   const [visibility, setVisibility] = useState('Public');
-  const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    setImg(e.target.files[0]);
   };
+
+  const handleClick = e => {
+    e.preventDefault();
+  }
 
   return (
     <div className='add'>
       <div className='content'>
-        <input type="text" placeholder='Title' />
+        <input 
+          type="text" 
+          placeholder='Title' 
+          onChange={(e) => setTitle(e.target.value)} 
+        />
         <div className='editorContainer'>
-          <ReactQuill className='editor' theme="snow" value={value} onChange={setValue} />
+          <ReactQuill 
+            className='editor' 
+            theme="snow" 
+            value={value} 
+            onChange={setValue} 
+          />
         </div>
       </div>
       <div className='publish'>
@@ -37,7 +52,7 @@ const Write = () => {
         <label>Upload Image:</label>
         <input type="file" onChange={handleImageChange} />
 
-        <button>Publish</button>
+        <button onClick={handleClick}>Publish</button>
         <button>Save as Draft</button>
         <button>Update</button>
       </div>
@@ -45,27 +60,63 @@ const Write = () => {
       <div className='menu'>
         <h1>Category</h1>
         <div>
-          <input type="radio" id="art" name="category" value="art" />
+          <input 
+            type="radio" 
+            id="art" 
+            name="category" 
+            value="art" 
+            onChange={(e) => setCat(e.target.value)} 
+          />
           <label htmlFor="art">Art</label>
         </div>
         <div>
-          <input type="radio" id="science" name="category" value="science" />
+          <input 
+            type="radio" 
+            id="science" 
+            name="category" 
+            value="science" 
+            onChange={(e) => setCat(e.target.value)} 
+          />
           <label htmlFor="science">Science</label>
         </div>
         <div>
-          <input type="radio" id="technology" name="category" value="technology" />
+          <input 
+            type="radio" 
+            id="technology" 
+            name="category" 
+            value="technology" 
+            onChange={(e) => setCat(e.target.value)} 
+          />
           <label htmlFor="technology">Technology</label>
         </div>
         <div>
-          <input type="radio" id="cinema" name="category" value="cinema" />
+          <input 
+            type="radio" 
+            id="cinema" 
+            name="category" 
+            value="cinema" 
+            onChange={(e) => setCat(e.target.value)} 
+          />
           <label htmlFor="cinema">Cinema</label>
         </div>
         <div>
-          <input type="radio" id="design" name="category" value="design" />
+          <input 
+            type="radio" 
+            id="design" 
+            name="category" 
+            value="design" 
+            onChange={(e) => setCat(e.target.value)} 
+          />
           <label htmlFor="design">Design</label>
         </div>
         <div>
-          <input type="radio" id="food" name="category" value="food" />
+          <input 
+            type="radio" 
+            id="food" 
+            name="category" 
+            value="food" 
+            onChange={(e) => setCat(e.target.value)} 
+          />
           <label htmlFor="food">Food</label>
         </div>
       </div>
