@@ -1,5 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { axios } from 'axios';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import React from "react";
 import Edit from "../img/edit.png";
@@ -12,7 +13,8 @@ import { AuthContext } from '../context/authContext';
 const Single = () => {
   const [post, setPost] = useState({});
 
-  const location = useLocation()
+  const location = useLocation();
+  const Navigate = useNavigate();
 
   const postId = location.pathname.split("/")[2];
 
@@ -33,12 +35,12 @@ const Single = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postId}`);
-      window.location.replace("/");
+      Navigate("/")
     } catch (err) {
       console.log(err);
     }
   };
-  
+
   return (
     <div className="single">
       <div className="content">
