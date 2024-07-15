@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
     console.log("Register endpoint hit");
+
     const q = "SELECT * FROM users WHERE email = ? OR username = ?";
     db.query(q, [req.body.email, req.body.username], (err, data) => {
         if (err) {
@@ -29,14 +30,12 @@ export const register = (req, res) => {
             console.log("User created successfully");
             return res.status(200).json("User has been created");
         });
-
     });
-
 };
 
 export const login = (req, res) => {
-    //Check user
     console.log("Login endpoint hit");
+
     const q = "SELECT * FROM users WHERE username = ?";
     db.query(q, [req.body.username], (err, data) => {
         if (err) {
@@ -47,23 +46,32 @@ export const login = (req, res) => {
             console.log("User not found");
             return res.status(404).json("User not found!");
         }
-        //Check Password
+
         const isPasswordCorrect = bcrypt.compareSync(req.body.password, data[0].password);
         if (!isPasswordCorrect) {
             console.log("Wrong password");
             return res.status(400).json("Wrong username or password!");
         }
+
         const token = jwt.sign({ id: data[0].id }, "jwtkey");
         const { password, ...other } = data[0];
+
         res.cookie("access_token", token, {
-            httpOnly: true
+            httpOnly: true,
+            sameSite: "strict", // Adjusted for security
+            secure: process.env.NODE_ENV === "production", // Only use secure cookies in production
         }).status(200).json(other);
+
+        console.log("User logged in successfully");
     });
 };
+
 export const logout = (req, res) => {
     res.clearCookie("access_token", {
-        sameSite: "none",
-        secure: true
+        httpOnly: true,
+        sameSite: "strict", // Adjusted for security
+        secure: process.env.NODE_ENV === "production", // Only use secure cookies in production
     }).status(200).json("User has been logged out");
-};
 
+    console.log("User logged out successfully");
+};

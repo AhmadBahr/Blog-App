@@ -6,7 +6,10 @@ export const AuthContext = createContext();
 
 // Create the AuthProvider component
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("user") || "null"));
+    const [currentUser, setCurrentUser] = useState(() => {
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
     // Function to handle login
     const login = async (inputs) => {
@@ -16,6 +19,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("user", JSON.stringify(res.data));
         } catch (err) {
             console.error("Login error:", err);
+            throw err; // Optionally re-throw the error for components to handle
         }
     };
 

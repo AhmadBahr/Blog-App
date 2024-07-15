@@ -1,30 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { axios } from 'axios';
-import { Navigate, useLocation } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import React from "react";
-import Edit from "../img/edit.png";
-import Delete from "../img/delete.png";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Menu from '../components/Menu';
-import moment from "moment";
+import moment from 'moment';
 import { AuthContext } from '../context/authContext';
+import Edit from '../img/edit.png';
+import Delete from '../img/delete.png';
 
 const Single = () => {
   const [post, setPost] = useState({});
-
+  const navigate = useNavigate();
   const location = useLocation();
-  const Navigate = useNavigate();
-
   const postId = location.pathname.split("/")[2];
-
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await axios.get(`/posts/${postId}`);
-        setPost(res.data[0]);
+        const res = await axios.get(`/api/posts/${postId}`);
+        setPost(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -34,8 +28,8 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${postId}`);
-      Navigate("/")
+      await axios.delete(`/api/posts/${postId}`);
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +43,7 @@ const Single = () => {
   return (
     <div className="single">
       <div className="content">
-        <img src={`../upload/${post?.img}`} alt="Main content" />
+        <img src={`../upload/${post.img}`} alt="Main content" />
         <div className="user">
           {post.userImg && <img src={post.userImg} alt="User" />}
           <div className="info">
@@ -58,17 +52,15 @@ const Single = () => {
           </div>
           {currentUser?.username === post.username && (
             <div className="edit">
-              <Link to={`/write?edit=2`} state={post}>
+              <Link to={`/write/${postId}`} state={post}>
                 <img src={Edit} alt="Edit" />
               </Link>
               <img onClick={handleDelete} src={Delete} alt="Delete" />
             </div>
           )}
         </div>
-        <h1>
-          {post.title}
-        </h1>
-        {getText(post.desc)}
+        <h1>{post.title}</h1>
+        <p>{getText(post.desc)}</p>
       </div>
       <Menu cat={post.cat} />
     </div>

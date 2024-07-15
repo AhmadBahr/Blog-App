@@ -1,17 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-  const [inputs, setInputs] = React.useState({
+  const [inputs, setInputs] = useState({
     username: "",
     email: "",
     password: "",
   });
 
-  const [error, setError] = React.useState(null);
+  const [error, setError] = useState(null);
 
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -20,8 +20,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/auth/register", inputs); 
-      Navigate("/login");
+      await axios.post("http://localhost:3000/api/auth/register", inputs); 
+      navigate("/login");
     } catch (err) {
       setError(err.response.data);
     }
@@ -36,10 +36,10 @@ const Register = () => {
         <input required type="password" placeholder='password' onChange={handleChange} name='password' />
         <button onClick={handleSubmit}>Register</button>
         {
-          error && <span>{err.message}</span>
+          error && <span>{error.message}</span>
         }
       </form>
-      <span>Do you have an account? <a href="/login">Login</a></span>
+      <span>Do you have an account? <Link to="/login">Login</Link></span>
     </div>
   );
 }

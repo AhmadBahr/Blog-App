@@ -1,48 +1,46 @@
-import { useNavigate } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
 import { useState } from 'react';
-import React from 'react';
+import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 const Write = () => {
-  const state = useLocation().state;
-  const [value, setValue] = useState(state?.desc || "");
-  const [title, setTitle] = useState(state?.title || "");
+  const state = useLocation().state || {};
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState(state.title || "");
+  const [value, setValue] = useState(state.desc || "");
   const [img, setImg] = useState(null);
-  const [cat, setCat] = useState(state?.cat || "");
+  const [cat, setCat] = useState(state.cat || "");
   const [status, setStatus] = useState('Draft');
   const [visibility, setVisibility] = useState('Public');
-
-const navigate = useNavigate();
-
-  const upload = async () => {
-    if (img) {
-      try {
-        const formData = new FormData();
-        formData.append('file', img);
-        const res = await axios.post('/api/upload', formData);
-        return res.data;
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    return "";
-  };
 
   const handleImageChange = (e) => {
     setImg(e.target.files[0]);
   };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    const imgUrl = await upload();
+  const uploadImage = async () => {
+    if (!img) return state.img || '';
 
     try {
-      if (state) {
+      const formData = new FormData();
+      formData.append('file', img);
+      const res = await axios.post('/api/upload', formData);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      return '';
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const imgUrl = await uploadImage();
+
+    try {
+      if (state.id) {
         await axios.put(`/api/posts/${state.id}`, {
           title,
           desc: value,
@@ -59,8 +57,8 @@ const navigate = useNavigate();
           status,
           visibility,
         });
-        Navigate("/");
       }
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -100,9 +98,9 @@ const navigate = useNavigate();
         <label>Upload Image:</label>
         <input type="file" onChange={handleImageChange} />
 
-        <button onClick={handleClick}>Publish</button>
+        <button onClick={handleSubmit}>Publish</button>
         <button>Save as Draft</button>
-        <button>Update</button>
+        {state.id && <button>Update</button>}
       </div>
 
       <div className='menu'>
