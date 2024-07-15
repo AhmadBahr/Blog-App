@@ -68,7 +68,7 @@ CSS extension language that adds nested rules, variables, mixins, and more.
  
 ## Setup
 
-- Clone the repository: git clone https://github.com/your-username/restaurant-finder.git
+- Clone the repository: git clone https://github.com/your-username/Blogspace.git
 
 - Navigate to the project directory: cd restaurant-finder
 
