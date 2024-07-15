@@ -4,25 +4,29 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 
 const Write = () => {
   const state = useLocation().state;
-  const [value, setValue] = useState(state?.title || "");
-  const [title, setTitle] = useState(state?.desc || "");
+  const [value, setValue] = useState(state?.desc || "");
+  const [title, setTitle] = useState(state?.title || "");
   const [img, setImg] = useState(null);
   const [cat, setCat] = useState(state?.cat || "");
   const [status, setStatus] = useState('Draft');
   const [visibility, setVisibility] = useState('Public');
 
   const upload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('file', img);
-      const res = await axios.post('/api/upload', formData);
-      return res.data;
-    } catch (err) {
-      console.log(err);
+    if (img) {
+      try {
+        const formData = new FormData();
+        formData.append('file', img);
+        const res = await axios.post('/api/upload', formData);
+        return res.data;
+      } catch (err) {
+        console.log(err);
+      }
     }
+    return "";
   };
 
   const handleImageChange = (e) => {
@@ -34,15 +38,24 @@ const Write = () => {
     const imgUrl = await upload();
 
     try {
-      const res = await axios.post('/api/posts', {
-        title,
-        desc: value,
-        img: imgUrl,
-        cat,
-        status,
-        visibility,
-      });
-      console.log(res);
+      if (state) {
+        await axios.put(`/api/posts/${state.id}`, {
+          title,
+          desc: value,
+          cat,
+          img: imgUrl || state.img,
+        });
+      } else {
+        await axios.post('/api/posts/', {
+          title,
+          desc: value,
+          cat,
+          img: imgUrl,
+          date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+          status,
+          visibility,
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -92,7 +105,7 @@ const Write = () => {
         <div>
           <input
             type="radio"
-            checked = {cat === "art"}
+            checked={cat === "art"}
             id="art"
             name="category"
             value="art"
@@ -103,7 +116,7 @@ const Write = () => {
         <div>
           <input
             type="radio"
-            checked = {cat === "science"}
+            checked={cat === "science"}
             id="science"
             name="category"
             value="science"
@@ -114,7 +127,7 @@ const Write = () => {
         <div>
           <input
             type="radio"
-            checked = {cat === "technology"}
+            checked={cat === "technology"}
             id="technology"
             name="category"
             value="technology"
@@ -125,7 +138,7 @@ const Write = () => {
         <div>
           <input
             type="radio"
-            checked = {cat === "cinema"}
+            checked={cat === "cinema"}
             id="cinema"
             name="category"
             value="cinema"
@@ -136,7 +149,7 @@ const Write = () => {
         <div>
           <input
             type="radio"
-            checked = {cat === "design"}
+            checked={cat === "design"}
             id="design"
             name="category"
             value="design"
@@ -147,7 +160,7 @@ const Write = () => {
         <div>
           <input
             type="radio"
-            checked = {cat === "food"}
+            checked={cat === "food"}
             id="food"
             name="category"
             value="food"
