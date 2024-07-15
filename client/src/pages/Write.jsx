@@ -1,3 +1,4 @@
+import { axios } from 'axios';
 import { useState } from 'react';
 import React from 'react';
 import ReactQuill from 'react-quill';
@@ -10,6 +11,17 @@ const Write = () => {
   const [cat, setCat] = useState('');
   const [status, setStatus] = useState('Draft');
   const [visibility, setVisibility] = useState('Public');
+
+  const upload = () => {
+   try {
+      const formData = new FormData();
+      formData.append('file', img);
+      const res = axios.post('/api/upload', formData);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleImageChange = (e) => {
     setImg(e.target.files[0]);
